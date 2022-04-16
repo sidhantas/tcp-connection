@@ -77,7 +77,7 @@ int main()
 
     printf("MESSAGE: %s\n", buffer);
 
-    if (strcmp(buffer, "ligths\n") == 0)
+    if (strncmp(buffer, "ligths", 6) == 0)
     {
       printf("strings match\n");
       system("sh ~/lights");
