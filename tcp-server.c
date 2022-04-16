@@ -68,26 +68,30 @@ int main()
 
   printf("connection accepted\n");
 
-  bzero(buffer, 256);
-  n = read(newsockfd, buffer, 255);
-
-  if (n < 0)
+  while (true)
   {
-    perror("ERROR reading from socket");
-    exit(1);
-  }
+    bzero(buffer, 256);
+    n = read(newsockfd, buffer, 255);
 
-  printf("MESSAGE: %s\n", buffer);
-  if (strcmp(buffer, "ligths"))
-  {
-    system("sh ~/lights");
-  }
-  n = write(newsockfd, "I got your message", 18);
+    if (n < 0)
+    {
+      perror("ERROR reading from socket");
+      exit(1);
+    }
 
-  if (n < 0)
-  {
-    perror("ERROR writing to socket");
-    exit(1);
+    printf("MESSAGE: %s\n", buffer);
+
+    if (strcmp(buffer, "ligths"))
+    {
+      system("sh ~/lights");
+    }
+    n = write(newsockfd, "I got your message", 18);
+
+    if (n < 0)
+    {
+      perror("ERROR writing to socket");
+      exit(1);
+    }
   }
 
   close(sockfd);
