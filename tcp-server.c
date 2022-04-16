@@ -76,8 +76,7 @@ int main()
     }
 
     printf("MESSAGE: %s\n", buffer);
-    printf("Difference %d", strncmp(buffer, "ligths", 6));
-    if (strncmp(buffer, "ligths", 7) == 0)
+    if (strncmp(buffer, "lights\n", 7) == 0)
     {
       printf("strings match\n");
       system("sh ~/lights");
