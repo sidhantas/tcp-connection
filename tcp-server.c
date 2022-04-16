@@ -79,7 +79,7 @@ int main()
 
     if (strcmp(buffer, "ligths") == 0)
     {
-      printf("strings match");
+      printf("strings match\n");
       system("sh ~/lights");
     }
 
