@@ -36,8 +36,8 @@ void configure_server_address(struct sockaddr_in *serv_addr, char *ip_addr, int 
   serv_addr->sin_port        = htons(port);
 }
 
-void bind_and_listen(struct sockaddr_in *serv_addr, int sockfd) {
-  if (bind(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+void bind_and_listen(struct sockaddr_in *serv_addr, int sockfd, socklen_t serv_addr_len) {
+  if (bind(sockfd, (struct sockaddr *)serv_addr, serv_addr_len) < 0) {
     perror("ERROR binding");
     exit(1);
   }
@@ -111,7 +111,7 @@ int main() {
   portno = 8080;
 
   configure_server_address(&serv_addr, BIND_ADDR, portno);
-  bind_and_listen(&serv_addr, sockfd);
+  bind_and_listen(&serv_addr, sockfd, sizeof(serv_addr));
   clilen = sizeof(cli_addr);
 
   while (newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t *)&clilen)) {
