@@ -26,8 +26,6 @@ int init_tcp_socket()
 
 int main()
 {
-  printf("Hello\n");
-
   int sockfd, newsockfd, portno, clilen;
   char buffer[256];
   struct sockaddr_in serv_addr, cli_addr;
@@ -79,10 +77,12 @@ int main()
 
     printf("MESSAGE: %s\n", buffer);
 
-    if (strcmp(buffer, "ligths"))
+    if (strcmp(buffer, "ligths") == 0)
     {
+      printf("strings match");
       system("sh ~/lights");
     }
+
     n = write(newsockfd, "I got your message", 18);
 
     if (n < 0)
