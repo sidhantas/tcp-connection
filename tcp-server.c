@@ -73,7 +73,10 @@ int main()
   }
 
   printf("MESSAGE: %s\n", buffer);
-
+  if (strcmp(buffer, "ligths"))
+  {
+    system("sh ~/lights");
+  }
   n = write(newsockfd, "I got your message", 18);
 
   if (n < 0)
@@ -81,6 +84,7 @@ int main()
     perror("ERROR writing to socket");
     exit(1);
   }
+
   close(sockfd);
   return 0;
 }
