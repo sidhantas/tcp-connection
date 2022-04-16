@@ -5,7 +5,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
-#include <stdbool.h>
 
 #define BIND_ADDR "192.168.1.99"
 
@@ -59,18 +58,16 @@ int main()
   listen(sockfd, 5);
   clilen = sizeof(cli_addr);
 
-  newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t *)&clilen);
-
-  if (newsockfd < 0)
+  while (newsockfd = accept(sockfd, (struct sockaddr *)&cli_addr, (socklen_t *)&clilen))
   {
-    perror("ERROR on accept");
-    exit(1);
-  }
+    if (newsockfd < 0)
+    {
+      perror("ERROR on accept");
+      exit(1);
+    }
 
-  printf("connection accepted\n");
+    printf("connection accepted\n");
 
-  while (true)
-  {
     bzero(buffer, 256);
     n = read(newsockfd, buffer, 255);
 
