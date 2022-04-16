@@ -34,6 +34,11 @@ int main()
   int n;
 
   sockfd = init_tcp_socket();
+  int reuse = 1;
+  if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const char *)&reuse, sizeof(reuse)) < 0)
+  {
+    perror("setsockopt(SO_REUSEADDR) failed");
+  }
   printf("TCP socket created\n");
   memset(&serv_addr, 0, sizeof(serv_addr));
   portno = 8080;
