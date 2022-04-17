@@ -122,9 +122,12 @@ int main() {
     printf("connection accepted\n");
     ssl = SSL_new(ssl_ctx);
     SSL_set_fd(ssl, newsockfd);
+    int res;
+    if ((res = SSL_accept(ssl)) < 0) {
 
-    if (SSL_accept(ssl) <= 0) {
       perror("SSL handshake failed");
+      ERR_print_errors_fp(stderr);
+
       exit(1);
     }
     printf("SSL connection accepted");

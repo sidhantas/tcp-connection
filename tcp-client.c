@@ -105,6 +105,10 @@ int main(int argc, char *argv[]) {
       perror("ERROR reading from socket");
       exit(1);
     }
+  } else {
+    printf("SSL connection to server failed\n\n");
+
+    ERR_print_errors_fp(stderr);
   }
 
   /* Send message to the server */
