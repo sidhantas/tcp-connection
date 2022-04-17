@@ -10,9 +10,6 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#define BIND_ADDR "192.168.1.99"
-#define BIND_PORT "8080"
-
 int init_tcp_socket() {
   /*
    creates a tcp socket and returns its fd, exits program
@@ -27,7 +24,7 @@ int init_tcp_socket() {
   return sockfd;
 }
 
-void init_addr_info(struct sockaddr *host_addr, struct addrinfo **server) {
+void init_addr_info(struct sockaddr *host_addr, struct addrinfo **server, char *addr, char *port) {
   struct addrinfo hints;
   bzero(&hints, sizeof(hints));
 
@@ -36,7 +33,7 @@ void init_addr_info(struct sockaddr *host_addr, struct addrinfo **server) {
   hints.ai_protocol = 0;
   hints.ai_addr     = host_addr;
 
-  if (getaddrinfo(BIND_ADDR, BIND_PORT, &hints, server) != 0) {
+  if (getaddrinfo(addr, port, &hints, server) != 0) {
     fprintf(stderr, "ERROR, no such host\n");
     exit(1);
   }
@@ -70,13 +67,23 @@ int main(int argc, char *argv[]) {
   SSL_CTX         *ssl_ctx;
   SSL             *ssl;
 
+  char BIND_ADDR[25], BIND_PORT[7];
+
+  if (argc < 3) {
+    perror("Format: ./tcp-client ip port");
+    exit(1);
+  }
+
+  strncpy(BIND_ADDR, argv[1], 24);
+  strncpy(BIND_PORT, argv[2], 6);
+
   ssl_ctx = create_client_context();
   configure_client_context(ssl_ctx);
   sockfd = init_tcp_socket();
 
   host_addr.sa_family = AF_INET;
 
-  init_addr_info(&host_addr, &server);
+  init_addr_info(&host_addr, &server, BIND_ADDR, BIND_PORT);
 
   if (connect(sockfd, server->ai_addr, server->ai_addrlen) < 0) {
     perror("ERROR connecting");

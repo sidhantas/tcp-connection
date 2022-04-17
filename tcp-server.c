@@ -108,7 +108,7 @@ int main() {
 
   printf("TCP socket created\n");
   bzero((char *)&serv_addr, sizeof(serv_addr));
-  portno = 8080;
+  portno = 1025;
 
   configure_server_address(&serv_addr, BIND_ADDR, portno);
   bind_and_listen(&serv_addr, sockfd, sizeof(serv_addr));
